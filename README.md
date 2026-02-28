@@ -2,26 +2,30 @@
 
 This repository contains an implementations of the two proposed models in our ICLR 26 paper ([https://arxiv.org/abs/2509.19707](https://openreview.net/forum?id=YrX77XRgku)), namely the Classification-Diffusion Copula (CDC) and Reflection Copula. These models handle high-dimensional dependency modeling using diffusion processes and flow-based techniques for density estimation and sampling. These are the first copula models able to scale to complex high-dimensional (d=1024) and multimodal dependencies.
 
+![image](https://github.com/Huk-David/Diffusion-and-Flow-based-Copulas/blob/main/Figures/figure1_cdc_refcop.png)
+
 Overview
 --------
 The paper introduces two processes that *forget* inter-variable dependencies while preserving dimension-wise marginals, defining valid copulas at all times. Models then *remember* these dependencies, provably recovering the true copula.
 
 CDC (Classification-Diffusion Copula): Uses a Ornstein-Uhlenbeck process on Gaussian-scale copula data, diffusing the dependence. A classifier estimates the density ratio to recover the copula, and a denoiser enables sampling. The process forgets dependencies exponentially fast, converging to independence.
 
-Reflection Copula (HFC): Defines a reflection velocity field on the unit hypercube, simulating a flow that forgets dependencies while preserving uniform marginals. A neural network estimates the velocity field, and ODE sampling recovers the copula. The process converges to independence as well.
+Reflection Copula: Defines a reflection velocity field on the unit hypercube, simulating a flow that forgets dependencies while preserving uniform marginals. A neural network estimates the velocity field, and ODE sampling recovers the copula. The process converges to independence as well.
 
 Files
 -----
 File              | Description                         
 ------------------|-------------------------------------
 [CDC.py](CDC.py)           | CDC architecture                     
-[HFC.py](HFC.py)           | Reflection Copula architecture      
-[Sample_HFC.py](Sample_HFC.py)    | HFC sampling script                  
-[train_HFC.py](train_HFC.py)     | HFC training                         
+[Ref_copula.py](Ref_copula.py)           | Reflection Copula architecture      
+[Sample_Ref_copula.py](Sample_Ref_copula.py)    | Reflection Copula sampling script                  
+[train_Ref_copula.py](train_Ref_copula.py)     | Reflection Copula training                         
 [train_CDC.py](train_CDC.py)     | CDC training                         
 
 
 ## Using the `CDC` for Density Estimation and Sampling
+
+![image](https://github.com/Huk-David/Diffusion-and-Flow-based-Copulas/blob/main/Figures/cdc_diagram.png)
 
 ### 1. **CDC Initialization**
 You need to initialize the model with the required parameters:
@@ -61,6 +65,8 @@ print(samples)  # Output: (100, input_dim) tensor of copula samples
 ```
 
 ## Using the `Reflection Copula` for fast Sampling
+
+![image](https://github.com/Huk-David/Diffusion-and-Flow-based-Copulas/blob/main/Figures/hfc_reflection_colored_arrows_1by3_subplot.png)
 
 ### 1. **Reflection Copula Initialization**
 
@@ -108,6 +114,9 @@ print(samples)                                           # Shape: (batch_size, d
 # Datasets and Model Weights
 For datasets, generated samples, and trained model weights, please contact the first author at the following address: `David.Huk@warwick.ac.uk`.
 
+![image](https://github.com/Huk-David/Diffusion-and-Flow-based-Copulas/blob/main/Figures/mnist_all_methods.png)
+![image](https://github.com/Huk-David/Diffusion-and-Flow-based-Copulas/blob/main/Figures/cifar_all_methods.png)
+
 # Citation
 
 If you find this code useful for your research, please consider citing our paper:
@@ -121,4 +130,5 @@ booktitle={The Fourteenth International Conference on Learning Representations},
 year={2026},
 url={https://openreview.net/forum?id=YrX77XRgku}
 }
+
 ```
